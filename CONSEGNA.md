@@ -83,3 +83,17 @@ la differenza tra la quantità disponibile e la soglia minima
 
 Per il layout di questo step puoi fare riferimento al file *step3.png*
 che trovi in allegato.
+
+**Indicazioni sul progetto**
+
+Il progetto può essere sviluppato utilizzando qualunque framework o
+libreria sia ritenuta utile o necessario/a.
+
+Il progetto è stato mantenuto volutamente semplice a livello di
+specifiche, in modo che ci si possa concentrare sul renderlo “production
+ready”. Valuteremo, quindi, anche il modo il codice è stato organizzato
+e gestito, tenendo conto di come sono stati separati i vari moduli.
+
+Pertanto, pur trattandosi di un prodotto minuscolo, applica tutte le
+*best practices* appropriate, anche a costo di sovra ingegnerizzare (con
+le giuste proporzioni) il tutto.
