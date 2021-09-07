@@ -3,7 +3,7 @@ let arr2 = [2, 5, 9, 0];
 console.log(intersect(arr1, arr2));
 
 function intersect(arr1, arr2) {
-    let dest = [];
+    var dest = [];
     arr1.forEach(el => {
         if (arr2.includes(el) && !dest.includes(el)) {
             dest.push(el);
