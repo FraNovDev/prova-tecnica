@@ -7,18 +7,20 @@
 </head>
 
 <body>
-    <main>
-        <div class="position-relative overflow-hidden p-3 p-md-5 bg-image myImage">
-            <div class="col-md-5 ps-5 my-5">
+    <div class="overflow-hidden bg-image myImage">
+        <div class="pagePadding">
+            <div class="col-md-5 ps-5">
                 <h1 class="display-5 fw-light text-primary">SiteName</h1>
             </div>
-            <div class="col-md-5 col-md-offset-2 ps-5 my-5">
+            <div class="col-md-5 col-md-offset-2 ps-5 my-5 w-40 mt-5">
                 <h1 class="display-5 fw-light"><strong>Lorem Ipsum</strong> dolor sit amet, consecte.</h1>
             </div>
             <div class="col-md-2 ps-5 btn-group">
                 <a class="btn btn-warning text-white w-25" role="button" href="#">CTA</a>
             </div>
         </div>
+    </div>
+    <main class="pagePadding">
         <div class="px-5 mb-4">
             <h5>I nostri servizi</h5>
             <p>Nulla nec diam quis lacus ultricies vestibulum nec ac dui. Nunc hendrerit est vel ornare pharetra. Donec scelerisque orci sed lacus interdum rutrum ac nec orci. Mauris a nunc feugiat, pellentesque metus volutpat, dapibus purus. Sed vitae justo
@@ -106,7 +108,7 @@
         </div>
     </main>
 </body>
-<footer class="mb-5">
+<footer class="mb-5 pagePadding">
     <hr class="mx-5">
     <div class="row mx-5 text-muted d-flex justify-content-end">
         <div class="col-auto px-1 small">Terms</div>
@@ -118,6 +120,11 @@
     </div>
 </footer>
 <style>
+    .pagePadding {
+        padding: 20vh;
+        background-color: transparent;
+    }
+    
     .myImage {
         height: 100vh;
         background-size: cover;
