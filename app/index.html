@@ -84,7 +84,7 @@
             filteredItems: []
         },
         mounted() {
-            $.getJSON('./items.json').then(data => {
+            $.getJSON('./data/items.json').then(data => {
                 this.items = this.alphabeticSort(data);
                 this.filteredItems = this.items
             })
