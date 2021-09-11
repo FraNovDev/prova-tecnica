@@ -18,9 +18,6 @@
             <h1 class="display-5 fw-light"><strong>Gestione ristoccaggio magazzino</strong></h1>
         </div>
     </div>
-    <!-- <template id="app"> -->
-
-
     <div id="app" class="pagePadding">
         <div class="input-group pagePadding">
             <input type="text" class="form-control" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -35,8 +32,6 @@
             </div>
         </div>
     </div>
-
-    <!-- </template> -->
 </body>
 
 <style>
@@ -84,14 +79,47 @@
             filteredItems: []
         },
         mounted() {
-            $.getJSON('./data/items.json').then(data => {
-                this.items = this.alphabeticSort(data);
-                this.filteredItems = this.items
-            })
+            this.getItems();
         },
         methods: {
             alphabeticSort(array) {
                 return array.sort((a, b) => a.name.localeCompare(b.name));
+            },
+            getStores(id) {
+                $.ajax({
+                    url: "api/api.php",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        action: "stores",
+                        id: id
+                    }),
+                    success: function(result) {
+                        console.log('ohyea', result)
+                    }.bind(this),
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+            },
+            getItems() {
+                $.ajax({
+                    url: "api/api.php",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        action: "items"
+                    }),
+                    success: function(result) {
+                        this.items = this.alphabeticSort(result);
+                        this.filteredItems = this.items
+                    }.bind(this),
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
             }
         },
         watch: {
