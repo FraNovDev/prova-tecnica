@@ -19,16 +19,30 @@
         </div>
     </div>
     <div id="app" class="pagePadding">
-        <div class="input-group pagePadding">
-            <input type="text" class="form-control" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon2">CERCA</button>
+        <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">STEP 1</button>
+        <div v-if="step==1" class="step-1">
+            <div class="input-group pagePadding">
+                <input type="text" class="form-control" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon2">CERCA</button>
+            </div>
+            <h3>Risultati</h3>
+            <div>
+            </div>
+            <div class="card my-3" v-for="item in filteredItems">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.name}}</h5>
+                    <p class="card-text">{{item.description}}</p>
+                    <a @click="step=2;getStores(item.id);" class="btn btn-success">NOME CTA</a>
+                </div>
+            </div>
         </div>
-        <h3>Risultati</h3>
-        <div class="card my-3" v-for="item in filteredItems">
-            <div class="card-body">
-                <h5 class="card-title">{{item.name}}</h5>
-                <p class="card-text">{{item.description}}</p>
-                <a href="#" class="btn btn-success">NOME CTA</a>
+        <div v-else class="step-2">
+            <div class="card my-3" v-for="store in stores">
+                <div class="card-body">
+                    <h5 class="card-title">{{store.storeName}}</h5>
+                    <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
+                    <a @click="showModal=true" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">NOME CTA</a>
+                </div>
             </div>
         </div>
     </div>
@@ -76,10 +90,14 @@
         data: {
             searchInput: '',
             items: [],
-            filteredItems: []
+            filteredItems: [],
+            stores: [],
+            step: 1,
+            showModal: false
+
         },
         mounted() {
-            this.getItems();
+            this.setItems();
         },
         methods: {
             alphabeticSort(array) {
@@ -96,14 +114,15 @@
                         id: id
                     }),
                     success: function(result) {
-                        console.log('ohyea', result)
+                        this.stores = result;
+                        this.step = 2;
                     }.bind(this),
                     error: function(err) {
                         console.log(err);
                     }
                 })
             },
-            getItems() {
+            setItems() {
                 $.ajax({
                     url: "api/api.php",
                     type: "POST",
