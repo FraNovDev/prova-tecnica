@@ -1,0 +1,33 @@
+.main-style {
+    padding: 0vh 25vh 20vh 25vh;
+    background-color: transparent;
+}
+
+.sub-title-style {
+    padding: 10vh 25vh 20vh 25vh;
+    background-color: transparent;
+}
+
+.title-style {
+    padding: 10vh 25vh 0vh 25vh;
+    background-color: transparent;
+}
+
+.bg-monitor-img {
+    height: 100vh;
+    background-size: cover;
+    background-image: url('./../../media/bg-monitor.png');
+    background-repeat: no-repeat;
+}
+
+.card-feed-img-style {
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    display: block;
+}
+
+.card-services-img-style {
+    background: transparent !important;
+    margin: 0 auto;
+}
