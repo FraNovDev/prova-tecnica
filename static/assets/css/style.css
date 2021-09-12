@@ -24,10 +24,21 @@
     height: 100px;
     width: 100px;
     margin: auto;
-    display: block;
+    /* display: block; */
 }
 
 .card-services-img-style {
     background: transparent !important;
     margin: 0 auto;
+}
+
+.card-img-top {
+    width: 20%;
+    height: 20%;
+    object-fit: contain;
+    margin-top: 20;
+}
+
+.card-feed-spacing {
+    margin: 0vh 0vh 6vh 0vh;
 }
