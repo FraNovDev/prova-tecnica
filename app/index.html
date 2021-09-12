@@ -21,18 +21,29 @@
     <div id="app" class="pagePadding">
         <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">STEP 1</button>
         <div v-if="step==1" class="step-1">
-            <div class="input-group pagePadding">
-                <input type="text" class="form-control" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon2">CERCA</button>
+            <div class="card p-2" style="display: flex;">
+                <div class="row">
+                    <div class="col-auto">
+                        <i class="bi bi-search h4"></i>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control shadow-none" style="border: 0; outline:0ch" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-warning btn-outline-secondary shadow-none" type="button" style="color:white;">CERCA</button>
+                    </div>
+                </div>
             </div>
-            <h3>Risultati</h3>
-            <div>
-            </div>
-            <div class="card my-3" v-for="item in filteredItems">
-                <div class="card-body">
-                    <h5 class="card-title">{{item.name}}</h5>
-                    <p class="card-text">{{item.description}}</p>
-                    <a @click="step=2;getStores(item.id);" class="btn btn-success">NOME CTA</a>
+            <h3 class="mt-4 pt-4">Risultati</h3>
+            <div class="card my-3 p-2" v-for="item in filteredItems">
+                <div class="row align-items-center m-1 p-1">
+                    <div class="col-8">
+                        <h5 class="card-title">{{item.name}}</h5>
+                        <p class="card-text text-truncate">{{item.description}}</p>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-outline-secondary" @click="step=2;getStores(item.id);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,7 +52,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{store.storeName}}</h5>
                     <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
-                    <a @click="showModal=true" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">NOME CTA</a>
+                    <a @click="showModal=true" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">NOME CTA</a>
                 </div>
             </div>
         </div>
@@ -50,35 +62,35 @@
 
 <style>
     .pagePadding {
-        padding: 0vh 10vh 20vh 10vh;
-        /* margin: 0vh 10vh 20vh 10vh; */
+        padding: 0vh 25vh 20vh 25vh;
+        margin: 0vh 25vh 20vh 25vh;
         background-color: transparent;
     }
-    
+
     .headerPadding {
         padding: 0vh 25vh 0vh 25vh;
         background-color: transparent;
     }
-    
+
     .titlePadding {
         padding: 5vh 25vh 0vh 25vh;
         background-color: transparent;
     }
-    
+
     .myImage {
         height: 100vh;
         background-size: cover;
         background-image: url('bg-monitor.png');
         background-repeat: no-repeat;
     }
-    
+
     .socialImage {
         height: 100px;
         width: 100px;
         margin: auto;
         display: block;
     }
-    
+
     .cardImage {
         background: transparent !important;
         margin: 0 auto;
@@ -113,11 +125,11 @@
                         action: "stores",
                         id: id
                     }),
-                    success: function(result) {
+                    success: function (result) {
                         this.stores = result;
                         this.step = 2;
                     }.bind(this),
-                    error: function(err) {
+                    error: function (err) {
                         console.log(err);
                     }
                 })
@@ -131,18 +143,18 @@
                     data: JSON.stringify({
                         action: "items"
                     }),
-                    success: function(result) {
+                    success: function (result) {
                         this.items = this.alphabeticSort(result);
                         this.filteredItems = this.items
                     }.bind(this),
-                    error: function(err) {
+                    error: function (err) {
                         console.log(err);
                     }
                 })
             }
         },
         watch: {
-            searchInput: function() {
+            searchInput: function () {
                 if (this.searchInput) {
                     this.filteredItems = [];
                     res = this.items.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()) || item.description.toLowerCase().includes(this.searchInput.toLowerCase()))
