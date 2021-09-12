@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>GestioneMagazzini</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<header class="header-style text-start">
+    <h1 class="display-5 text-primary">GestioneMagazzini</h1>
+    <h1 class="display-5 fw-light"><strong>Gestione ristoccaggio magazzino</strong></h1>
+</header>
+
+<body class="body-style">
+    <div id="app">
+        <div v-if="step==1" class="step-1">
+            <div class="card p-2" style="display: flex;">
+                <div class="row">
+                    <div class="col-auto">
+                        <i class="bi bi-search h4"></i>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control shadow-none" style="border: 0; outline:0ch" v-model="searchInput" placeholder="Di cosa hai bisogno oggi?">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-warning btn-outline-secondary shadow-none text-white" type="button">CERCA</button>
+                    </div>
+                </div>
+            </div>
+            <h3 class="mt-4 pt-4">Risultati</h3>
+            <div class="card my-3 p-2" v-for="item in filteredItems">
+                <div class="row align-items-center m-1 p-1">
+                    <div class="col-8">
+                        <h5 class="card-title">{{item.name}}</h5>
+                        <p class="card-text text-truncate">{{item.description}}</p>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=2;getStores(item.id);selectedProduct=item;">NOME CTA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else class="step-2 mt-3 pt-3">
+            <h3 class="mt-4 pt-4">Risultati</h3>
+            <div class="card my-3 p-2" v-for="store in stores">
+                <div class="row align-items-center text-center m-1 p-1">
+                    <div class="col-4 text-start">
+                        <h5 class="card-title m-0">{{store.storeName}}</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">Distanza: <strong class="h4">{{store.distance}}km</strong></p>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=3;sendArticles(store);">NOME CTA</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-warning btn-outline-secondary" type="button" @click="step=1;filteredItems=items;">Indietro</button>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header  h3 text-primary" style="border: 0; margin: 0 auto;">
+                        <div class="modal-title">
+                            <p class="text-center">Azione Confermata</p>
+                        </div>
+                    </div>
+                    <div v-if="sentResult!=null">
+                        <div class="modal-body text-center justify-content-center text-muted h3" v-model="sentResult">
+                            <p class="text-center">Prodotto: <strong class="text-black">{{sentResult.prod}}</strong></p>
+                            <p class="text-center">Magazzino: <strong class="text-black">{{sentResult.mag}}</strong></p>
+                            <p class="text-center">Articoli Inviati: <strong class="text-black">{{sentResult.tot}}</strong></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer outline-none shadow-none justify-content-center" style="border: 0;">
+                        <button type="button" class="btn btn-outline-secondary text-center" style="width: 30%;" @click="step=2" data-bs-dismiss="modal">CHIUDI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            searchInput: '',
+            items: [],
+            filteredItems: [],
+            stores: [],
+            step: 1,
+            showModal: false,
+            sentResult: null,
+            selectedProduct: null
+
+        },
+        mounted() {
+            this.setItems();
+        },
+        methods: {
+            alphabeticSort(array) {
+                return array.sort((a, b) => a.name.localeCompare(b.name));
+            },
+            getStores(id) {
+                $.ajax({
+                    url: "api/api.php",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        action: "stores",
+                        id: id
+                    }),
+                    success: function(result) {
+                        this.stores = result;
+                        this.step = 2;
+                    }.bind(this),
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+            },
+            setItems() {
+                $.ajax({
+                    url: "api/api.php",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        action: "items"
+                    }),
+                    success: function(result) {
+                        this.items = this.alphabeticSort(result);
+                        this.filteredItems = this.items
+                    }.bind(this),
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+            },
+            sendArticles(storeArticleInfo) {
+                this.sentResult = {
+                    prod: this.selectedProduct.name,
+                    mag: storeArticleInfo.storeName,
+                    tot: storeArticleInfo.item.minQty - storeArticleInfo.item.qty
+                }
+                $('#staticBackdrop').modal('show');
+            }
+        },
+        watch: {
+            searchInput: function() {
+                if (this.searchInput) {
+                    this.filteredItems = [];
+                    res = this.items.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()) || item.description.toLowerCase().includes(this.searchInput.toLowerCase()))
+                    this.filteredItems = this.alphabeticSort(res);
+                } else {
+                    this.filteredItems = this.items
+                }
+            }
+        }
+    });
+</script>
+
+</html>

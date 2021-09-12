@@ -1,0 +1,14 @@
+.body-style {
+    margin: 0vh 25vh 20vh 25vh;
+    background-color: transparent;
+}
+
+.header-style {
+    margin: 10vh 0vh 5vh 0vh;
+    background-color: transparent;
+}
+
+.btn-nome-cta {
+    color: white;
+    background-color: rgba(117, 202, 96, 0.878);
+}
