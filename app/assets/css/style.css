@@ -1,5 +1,4 @@
 .pagePadding {
-    padding: 0vh 25vh 20vh 25vh;
     margin: 0vh 25vh 20vh 25vh;
     background-color: transparent;
 }
@@ -12,20 +11,6 @@
 .titlePadding {
     padding: 5vh 25vh 0vh 25vh;
     background-color: transparent;
-}
-
-.myImage {
-    height: 100vh;
-    background-size: cover;
-    background-image: url('bg-monitor.png');
-    background-repeat: no-repeat;
-}
-
-.socialImage {
-    height: 100px;
-    width: 100px;
-    margin: auto;
-    display: block;
 }
 
 .cardImage {

@@ -37,8 +37,4 @@ class Stores
         }
         return $result;
     }
-    public function getSentInfo(){
-
-    }
-
 }

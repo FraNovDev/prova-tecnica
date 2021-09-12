@@ -21,10 +21,6 @@
         </div>
     </div>
     <div id="app" class="pagePadding">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Launch static backdrop modal
-        </button>
-        <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">STEP 1</button>
         <div v-if="step==1" class="step-1">
             <div class="card p-2" style="display: flex;">
                 <div class="row">
@@ -66,6 +62,7 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">Indietro</button>
         </div>
 
         <!-- Modal -->
@@ -83,7 +80,7 @@
                         </div>
                     </div>
                     <div class="modal-footer outline-none shadow-none ms-auto" style="border: 0;">
-                        <button type="button" class="btn btn-secondary" @click="step=1;selectedProduct=null;" data-bs-dismiss="modal">CHIUDI</button>
+                        <button type="button" class="btn btn-secondary" @click="step=2" data-bs-dismiss="modal">CHIUDI</button>
                     </div>
                 </div>
             </div>
@@ -153,9 +150,8 @@
                 this.sentResult = {
                     prod: this.selectedProduct.name,
                     mag: storeArticleInfo.storeName,
-                    tot: storeArticleInfo.qt - storeArticleInfo.minQty
+                    tot: storeArticleInfo.item.minQty - storeArticleInfo.item.qty
                 }
-                console.log(this.sentResult.prod);
                 $('#staticBackdrop').modal('show');
             }
         },
