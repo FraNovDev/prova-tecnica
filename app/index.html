@@ -10,17 +10,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+<header class="header-style text-start">
+    <h1 class="display-5 text-primary">GestioneMagazzini</h1>
+    <h1 class="display-5 fw-light"><strong>Gestione ristoccaggio magazzino</strong></h1>
+</header>
 
-<body>
-    <div class="titlePadding">
-        <h1 class="display-5 text-primary text-start">GestioneMagazzini</h1>
-    </div>
-    <div class="headerPadding">
-        <div class="my-5 mt-5">
-            <h1 class="display-5 fw-light"><strong>Gestione ristoccaggio magazzino</strong></h1>
-        </div>
-    </div>
-    <div id="app" class="pagePadding">
+<body class="body-style">
+    <div id="app">
         <div v-if="step==1" class="step-1">
             <div class="card p-2" style="display: flex;">
                 <div class="row">
@@ -43,7 +39,7 @@
                         <p class="card-text text-truncate">{{item.description}}</p>
                     </div>
                     <div class="col-4 text-end">
-                        <button class="btn btn-outline-secondary shadow-none" @click="step=2;getStores(item.id);selectedProduct=item" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</button>
+                        <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=2;getStores(item.id);selectedProduct=item;">NOME CTA</button>
                     </div>
                 </div>
             </div>
@@ -57,12 +53,12 @@
                             <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
                         </div>
                         <div class="col-4 text-end">
-                            <button class="btn btn-outline-secondary shadow-none" @click="step=3;sendArticles(store);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</button>
+                            <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=3;sendArticles(store);">NOME CTA</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">Indietro</button>
+            <button class="btn btn-warning btn-outline-secondary" type="button" @click="step=1;filteredItems=items;">Indietro</button>
         </div>
 
         <!-- Modal -->

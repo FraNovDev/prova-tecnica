@@ -1,19 +1,14 @@
-.pagePadding {
+.body-style {
     margin: 0vh 25vh 20vh 25vh;
     background-color: transparent;
 }
 
-.headerPadding {
-    padding: 0vh 25vh 0vh 25vh;
+.header-style {
+    margin: 10vh 0vh 5vh 0vh;
     background-color: transparent;
 }
 
-.titlePadding {
-    padding: 5vh 25vh 0vh 25vh;
-    background-color: transparent;
-}
-
-.cardImage {
-    background: transparent !important;
-    margin: 0 auto;
+.btn-nome-cta {
+    color: white;
+    background-color: rgba(117, 202, 96, 0.878);
 }
