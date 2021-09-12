@@ -4,9 +4,10 @@
 <head>
     <title>GestioneMagazzini</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
@@ -42,7 +43,7 @@
                         <p class="card-text text-truncate">{{item.description}}</p>
                     </div>
                     <div class="col-4 text-end">
-                        <button class="btn btn-outline-secondary" @click="step=2;getStores(item.id);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
+                        <button class="btn btn-outline-secondary shadow-none" @click="step=2;getStores(item.id);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
                     </div>
                 </div>
             </div>
@@ -50,52 +51,22 @@
         <div v-else class="step-2">
             <div class="card my-3" v-for="store in stores">
                 <div class="card-body">
-                    <h5 class="card-title">{{store.storeName}}</h5>
-                    <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
-                    <a @click="showModal=true" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">NOME CTA</a>
+                    <div class="row align-items-center m-1 p-1">
+                        <div class="col-8">
+                            <h5 class="card-title">{{store.storeName}}</h5>
+                            <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
+                        </div>
+                        <div class="col-4 text-end">
+                            <button class="btn btn-outline-secondary shadow-none" @click="step=2;"
+                                style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
 
-<style>
-    .pagePadding {
-        padding: 0vh 25vh 20vh 25vh;
-        margin: 0vh 25vh 20vh 25vh;
-        background-color: transparent;
-    }
-
-    .headerPadding {
-        padding: 0vh 25vh 0vh 25vh;
-        background-color: transparent;
-    }
-
-    .titlePadding {
-        padding: 5vh 25vh 0vh 25vh;
-        background-color: transparent;
-    }
-
-    .myImage {
-        height: 100vh;
-        background-size: cover;
-        background-image: url('bg-monitor.png');
-        background-repeat: no-repeat;
-    }
-
-    .socialImage {
-        height: 100px;
-        width: 100px;
-        margin: auto;
-        display: block;
-    }
-
-    .cardImage {
-        background: transparent !important;
-        margin: 0 auto;
-    }
-</style>
 <script>
     var app = new Vue({
         el: '#app',
