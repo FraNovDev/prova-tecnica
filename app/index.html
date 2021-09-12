@@ -44,17 +44,18 @@
                 </div>
             </div>
         </div>
-        <div v-else class="step-2">
+        <div v-else class="step-2 mt-3 pt-3">
+            <h3 class="mt-4 pt-4">Risultati</h3>
             <div class="card my-3" v-for="store in stores">
-                <div class="card-body">
-                    <div class="row align-items-center m-1 p-1">
-                        <div class="col-8">
-                            <h5 class="card-title">{{store.storeName}}</h5>
-                            <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
-                        </div>
-                        <div class="col-4 text-end">
-                            <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=3;sendArticles(store);">NOME CTA</button>
-                        </div>
+                <div class="row align-items-center text-center m-1 p-1">
+                    <div class="col-4 text-start">
+                        <h5 class="card-title m-0">{{store.storeName}}</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">Distanza: <strong class="h4">{{store.distance}}km</strong></p>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-outline-secondary btn-nome-cta shadow-none" @click="step=3;sendArticles(store);">NOME CTA</button>
                     </div>
                 </div>
             </div>
