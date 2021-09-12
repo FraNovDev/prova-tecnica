@@ -4,6 +4,7 @@
 <head>
     <title>GestioneMagazzini</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -20,6 +21,9 @@
         </div>
     </div>
     <div id="app" class="pagePadding">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Launch static backdrop modal
+        </button>
         <button class="btn btn-warning btn-outline-secondary" type="button" id="button-addon3" @click="step=1;filteredItems=items;">STEP 1</button>
         <div v-if="step==1" class="step-1">
             <div class="card p-2" style="display: flex;">
@@ -43,7 +47,7 @@
                         <p class="card-text text-truncate">{{item.description}}</p>
                     </div>
                     <div class="col-4 text-end">
-                        <button class="btn btn-outline-secondary shadow-none" @click="step=2;getStores(item.id);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
+                        <button class="btn btn-outline-secondary shadow-none" @click="step=2;getStores(item.id);selectedProduct=item" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</button>
                     </div>
                 </div>
             </div>
@@ -57,9 +61,29 @@
                             <p class="card-text">Distanza: <strong>{{store.distance}}km</strong></p>
                         </div>
                         <div class="col-4 text-end">
-                            <button class="btn btn-outline-secondary shadow-none" @click="step=2;"
-                                style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</a>
+                            <button class="btn btn-outline-secondary shadow-none" @click="step=3;sendArticles(store);" style="color:white; background-color:rgba(117, 202, 96, 0.878);">NOME CTA</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="border: 0;">
+                        <p class="modal-title" id="staticBackdropLabel">Azione Confermata</p>
+                    </div>
+                    <div v-if="sentResult!=null">
+                        <div class="modal-body" v-model="sentResult">
+                            <p class="text-muted text-center">Prodotto: {{sentResult.prod}}</p>
+                            <p class="text-muted text-center">Magazzino: {{sentResult.mag}}</p>
+                            <p class="text-muted text-center">Articoli Inviati: {{sentResult.tot}}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer outline-none shadow-none ms-auto" style="border: 0;">
+                        <button type="button" class="btn btn-secondary" @click="step=1;selectedProduct=null;" data-bs-dismiss="modal">CHIUDI</button>
                     </div>
                 </div>
             </div>
@@ -76,7 +100,9 @@
             filteredItems: [],
             stores: [],
             step: 1,
-            showModal: false
+            showModal: false,
+            sentResult: null,
+            selectedProduct: null
 
         },
         mounted() {
@@ -96,11 +122,11 @@
                         action: "stores",
                         id: id
                     }),
-                    success: function (result) {
+                    success: function(result) {
                         this.stores = result;
                         this.step = 2;
                     }.bind(this),
-                    error: function (err) {
+                    error: function(err) {
                         console.log(err);
                     }
                 })
@@ -114,18 +140,27 @@
                     data: JSON.stringify({
                         action: "items"
                     }),
-                    success: function (result) {
+                    success: function(result) {
                         this.items = this.alphabeticSort(result);
                         this.filteredItems = this.items
                     }.bind(this),
-                    error: function (err) {
+                    error: function(err) {
                         console.log(err);
                     }
                 })
+            },
+            sendArticles(storeArticleInfo) {
+                this.sentResult = {
+                    prod: this.selectedProduct.name,
+                    mag: storeArticleInfo.storeName,
+                    tot: storeArticleInfo.qt - storeArticleInfo.minQty
+                }
+                console.log(this.sentResult.prod);
+                $('#staticBackdrop').modal('show');
             }
         },
         watch: {
-            searchInput: function () {
+            searchInput: function() {
                 if (this.searchInput) {
                     this.filteredItems = [];
                     res = this.items.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()) || item.description.toLowerCase().includes(this.searchInput.toLowerCase()))

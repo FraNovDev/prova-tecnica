@@ -28,6 +28,7 @@ class Stores
         foreach (static::$stores as $store) {
             foreach ($store['items'] as $item) {
                 if ($item['id'] == $id && $item['qty'] < $item['minQty']) {
+                    $result[$store['id']]['storeId'] = $store['id'];
                     $result[$store['id']]['storeName'] = $store['name'];
                     $result[$store['id']]['distance'] = $store['distance'];
                     $result[$store['id']]['item'] = $item;
